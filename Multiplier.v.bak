@@ -1,0 +1,45 @@
+module Multiplier(x,y,p,clk,read_indicator,x_plus_dis,x_minus_dis,y_plus_dis,y_minus_dis,computation_cycle_dis,cnt_dis,tmp_read_data_dis,tmp_write_data_dis);
+input[1:0] x,y;
+input clk;
+output[1:0] p;
+output read_indicator;
+
+//tesing 
+output[3:0] x_plus_dis,x_minus_dis,y_plus_dis,y_minus_dis;
+output[6:0] computation_cycle_dis;
+output[8:0] cnt_dis;
+output[15:0] tmp_read_data_dis;
+output[15:0] tmp_write_data_dis;
+//testing finished
+
+
+
+wire enable;
+wire[8:0] cnt_master;
+wire[6:0] computation_cycle; 
+wire[3:0] tmp1,tmp2; //not used
+wire[3:0] x_plus,x_minus,y_plus,y_minus;
+
+
+// SECTION ONE design
+//initializing the counter moduel and CA reg with aid of the controlling logic
+assign read_indicator=enable;
+counter main_counter(enable,clk,cnt_master);
+computation_control FSM(cnt_master,clk,computation_cycle,enable);
+generate_CA_REG CA_REG(computation_cycle,x,y,x_plus,x_minus,y_plus,y_minus,clk,cnt_master,tmp_read_data_dis,tmp_write_data_dis);
+
+// section one design finished
+//testing procedure for section one
+assign x_plus_dis=x_plus;
+assign x_minus_dis=x_minus;
+assign y_plus_dis=y_plus;
+assign y_minus_dis=y_minus;
+assign computation_cycle_dis=computation_cycle;
+assign cnt_dis=cnt_master;
+
+
+
+endmodule
+
+
+

@@ -1,0 +1,15 @@
+module Sample_V(sum_vec,carry_vec,sample);
+// the sample procedure outputs 4 MSD of D for the later selection process
+parameter Num_bits=8;
+parameter on_line_delay=3;
+
+input[Num_bits+on_line_delay+1:0] sum_vec,carry_vec;
+output[3:0] sample;
+
+wire[Num_bits+on_line_delay+1:0] v_value;
+
+assign v_value=sum_vec+carry_vec;
+
+assign sample=v_value[Num_bits+on_line_delay+1:Num_bits-2];
+
+endmodule

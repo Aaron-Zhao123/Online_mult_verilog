@@ -1,0 +1,24 @@
+module x_string_delay_control(clk,x_plus,x_minus,STATES,x_plus_value,x_minus_value);
+
+input clk;
+input[3:0] x_plus,x_minus;
+input[1:0] STATES;
+output[3:0] x_plus_value,x_minus_value;
+wire[3:0] x_plus_delayed,x_minus_delayed;
+
+
+D_FF_four_bits(x_plus,x_minus,clk,x_plus_delayed,x_minus_delayed);
+
+always@(*) begin
+	if(STATES==2'b00||STATES==2'b01)begin 
+		assign x_plus_value=x_plus_delayed;
+		assign x_minus_value=x_minus_delayed;
+	end
+	
+	else begin
+		assign x_plus_value=x_plus;
+		assign x_minus_value=x_minus;
+	end
+end
+
+

@@ -1,0 +1,42 @@
+`timescale 1ns/1ps  
+module testbench();
+
+reg clk;
+wire[1:0] data_out;
+reg [1:0] x_value,y_value;
+wire read_indicator;
+wire[3:0]x_plus_dis,x_minus_dis,y_plus_dis,y_minus_dis;
+wire[6:0] computation_cycle_dis;
+wire[8:0] cnt_dis;
+wire[15:0] tmp_read_data_dis;
+wire[15:0] tmp_write_data_dis;
+
+
+integer data_in_file;
+integer scan_file;
+integer data_out_file;
+
+Multiplier	multiplier(x_value,y_value,data_out,clk,read_indicator,x_plus_dis,x_minus_dis,y_plus_dis,y_minus_dis,computation_cycle_dis,cnt_dis,tmp_read_data_dis,tmp_write_data_dis);
+initial begin
+	clk=0;
+	x_value=2'b0;
+	y_value=2'b0;
+	while(1)
+		#10 clk=~clk;
+end
+// clock module, 50Mhz clk
+
+
+
+initial begin
+  data_in_file=$fopen("H:/UROP research/verilog/Online_multiplier_arbitary_precision/input.txt","r");
+  data_out_file=$fopen("H:/UROP research/verilog/Online_multiplier_arbitary_precision/output.dat","w");
+end
+
+always@(posedge clk) begin
+  if(read_indicator)
+    scan_file=$fscanf(data_in_file,"%b %b",x_value,y_value);
+  //$fwrite(data_out_file,"%b\n",data_out);
+end
+
+endmodule

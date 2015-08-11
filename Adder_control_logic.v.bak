@@ -1,0 +1,26 @@
+module Adder_control_logic(clk,STATE,comp_cycle,v_value_plus,v_value_minus,residue_plus,residue_minus,);
+
+input clk;
+output[8:0] residue_minus,residue_minus;
+output[1:0] cin_x,cin_y;
+
+reg[8:0] residue_minus,residue_minus;
+reg[1:0] cin_x,cin_y;
+
+
+initial begin
+residue_minus<=9'b0;
+residue_plus<=9'b0;
+cin_x<=2'b0;
+cin_y<=2'b0;
+end
+
+
+
+
+always@(*) begin
+	if(STATE==2'b00) begin
+		On_the_line_parallel_adder adder()
+	end
+
+end

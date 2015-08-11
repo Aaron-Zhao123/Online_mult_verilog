@@ -1,0 +1,11 @@
+module M_block(upper_bits,positive_v,negative_v,ws_vec,wc_vec,clk);
+
+
+input[3:0] sample; // -1 postion of sample is not used 
+input[1:0] P_value; // in signed redundant representation
+output[2:0] upper_bits_of_w;
+
+assign upper_bits_of_w[2]=sample[2]^(P_value[1]^P_value[0]);
+assign upper_bits_of_w[1:0]=sample[1:0];
+
+endmodule

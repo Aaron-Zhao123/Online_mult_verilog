@@ -1,0 +1,44 @@
+module computation_control(cnt_master,clk,computation_cycle,enable_for_input);
+
+// this block computes the cycles which are at computation at the moment
+// also provides enable for Multiplier to know when to fetch from outside input data and also controls writing to the CA_RAM
+
+
+
+input[8:0] cnt_master;
+input clk;
+
+output[6:0] computation_cycle;
+output enable_for_input;
+
+wire[6:0] max_cycle;
+reg[6:0] computation_cycle;
+reg[6:0] inside_cnt;
+reg enable_for_input;
+
+initial begin
+	computation_cycle=7'b0000000;
+	inside_cnt=7'b0000000;
+	enable_for_input<=1'b1;
+end
+
+assign max_cycle=cnt_master[8:2];
+
+always@(negedge cnt_master[1]) begin
+			
+	inside_cnt=inside_cnt+1'b1;
+	if(inside_cnt>max_cycle) begin
+		computation_cycle=0;
+		inside_cnt=0;
+		enable_for_input<=1'b0;
+	end
+	if(inside_cnt<=max_cycle) begin
+		computation_cycle=max_cycle-inside_cnt;
+		inside_cnt=inside_cnt+1'b1;
+		enable_for_input<=1'b1;		
+	end	
+
+end
+
+
+endmodule
