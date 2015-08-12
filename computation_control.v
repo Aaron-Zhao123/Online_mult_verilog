@@ -13,7 +13,6 @@ input clk;
 output[6:0] computation_cycle;// this would always be the address
 output enable_for_input;
 output we;
-
 wire[6:0] cycle_num;
 wire[1:0] remainder;
 reg[6:0] computation_cycle;
@@ -78,12 +77,11 @@ always@(posedge clk) begin
 			if(computation_cycle==0) begin
 				we<=1'b0;
 				STATE<=CLEAR;
-				if(cnt_master==9'b111 || cnt_master==9'b1111 || cnt_master==9'b11111 ||cnt_master==9'b111111 ||cnt_master==9'b1111111 || cnt_master==9'b11111111)
-					computation_cycle<=cycle_num+1'b1;
-				else 
-					computation_cycle<=cycle_num;
-				
 			end
+			if(remainder==2'b11)
+				computation_cycle<=cycle_num+1'b1;
+			else 
+				computation_cycle<=cycle_num;
 			
 			if(computation_cycle>0)begin
 				STATE<=READ_PRE_LINES;

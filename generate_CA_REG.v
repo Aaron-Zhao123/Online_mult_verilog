@@ -36,23 +36,25 @@ assign addr=computation_cycles;
 single_clk_ram	ram1(tmp_write_data,addr,we,clk,tmp_read_data); //read and write to ram at the same time
 
 always@(negedge clk) begin
-	case(sel)
-		2'b00:begin
-			tmp_write_data<={tmp_read_data[15:4],{x_input[1:0],y_input[1:0]}};
-		end
-		2'b01:begin
-			tmp_write_data<={tmp_read_data[15:8],{x_input[1:0],y_input[1:0]},tmp_read_data[3:0]};
-		end
-		2'b10:begin
-			tmp_write_data<={tmp_read_data[15:12],{x_input[1:0],y_input[1:0]},tmp_read_data[7:0]};
-		end
-		2'b11:begin
-			tmp_write_data<={{x_input[1:0],y_input[1:0]},tmp_write_data[11:0]};
-		end
-		default:begin
-			tmp_write_data<=16'b0;
-		end
-	endcase
+	if(we==1'b1) begin
+		case(sel)
+			2'b00:begin
+				tmp_write_data<={tmp_read_data[15:4],{x_input[1:0],y_input[1:0]}};
+			end
+			2'b01:begin
+				tmp_write_data<={tmp_read_data[15:8],{x_input[1:0],y_input[1:0]},tmp_read_data[3:0]};
+			end
+			2'b10:begin
+				tmp_write_data<={tmp_read_data[15:12],{x_input[1:0],y_input[1:0]},tmp_read_data[7:0]};
+			end
+			2'b11:begin
+				tmp_write_data<={{x_input[1:0],y_input[1:0]},tmp_read_data[11:0]};
+			end
+			default:begin
+				tmp_write_data<=16'b0;
+			end
+		endcase
+	end
 end
 
 
